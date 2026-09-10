@@ -291,7 +291,7 @@ export const CartProvider = ({ children }) => {
       {children}
       {/* Global floating toast notification */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-[9999] bg-surface-container-highest border border-primary-fixed/60 text-on-surface px-5 py-3 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.8)] backdrop-blur-md font-label-caps uppercase font-bold flex items-center gap-3 animate-fadeIn">
+        <div className="fixed bottom-6 right-6 z-[9999] bg-surface-container-lowest border border-primary-fixed/40 text-on-surface px-5 py-3 rounded-xl shadow-2xl backdrop-blur-md font-label-caps uppercase font-bold flex items-center gap-3 animate-fadeIn">
           <span className="material-symbols-outlined text-primary-fixed text-xl">check_circle</span>
           <span className="text-xs sm:text-sm tracking-wide text-primary">{toast}</span>
         </div>

@@ -27,10 +27,10 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <header className="fixed top-0 left-0 w-full z-50 shadow-sm">
       {/* Top Flash Sale Announcement Banner */}
       <div className="w-full bg-secondary-container text-on-secondary-container px-space-md py-space-2xs text-center flex items-center justify-center gap-space-xs">
-        <span className="material-symbols-outlined text-sm text-primary-fixed">bolt</span>
+        <span className="material-symbols-outlined text-sm text-yellow-300">bolt</span>
         <span className="font-label-caps text-label-caps uppercase tracking-wider text-xs sm:text-sm font-bold">
           FLASH SALE: Extra 20% OFF on all Pro Gear with code <span className="underline">SPORT20</span> | Free Express Shipping over ₹999
         </span>
@@ -91,7 +91,7 @@ export const Navbar = () => {
                 Sports
                 <span className="material-symbols-outlined text-xs">expand_more</span>
               </button>
-              <div className="absolute top-[72px] left-0 hidden group-hover:flex flex-col w-56 bg-surface-container-high/95 backdrop-blur-xl rounded-lg p-space-sm shadow-[0_8px_24px_rgba(0,0,0,0.6)] border border-surface-variant z-50 animate-fadeIn">
+              <div className="absolute top-[72px] left-0 hidden group-hover:flex flex-col w-56 bg-surface-container-low/95 backdrop-blur-xl rounded-lg p-space-sm shadow-xl border border-surface-container-high z-50 animate-fadeIn">
                 <Link to="/shop?category=badminton" className="px-space-sm py-space-xs rounded font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container-highest transition-colors flex items-center justify-between">
                   Badminton
                   <span className="text-[10px] text-primary-fixed uppercase tracking-wider font-mono font-bold">New</span>
@@ -209,8 +209,8 @@ export const Navbar = () => {
 
                   {/* Dropdown Menu */}
                   {showUserDropdown && (
-                    <div className="absolute right-0 mt-2 w-56 bg-surface-container-high rounded-lg shadow-xl border border-surface-variant py-2 z-50 animate-fadeIn">
-                      <div className="px-4 py-2 border-b border-surface-variant">
+                    <div className="absolute right-0 mt-2 w-56 bg-surface-container-low rounded-lg shadow-xl border border-surface-container-high py-2 z-50 animate-fadeIn">
+                      <div className="px-4 py-2 border-b border-surface-container-high">
                         <p className="text-[10px] text-on-surface-variant font-label-caps uppercase">Athlete Profile</p>
                         <p className="text-sm font-bold text-primary truncate">{user?.fullName || 'Athlete'}</p>
                         <p className="text-xs text-on-surface-variant font-mono truncate mt-0.5">{user?.email}</p>

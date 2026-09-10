@@ -6,8 +6,8 @@
   html, body {
     margin: 0;
     padding: 0;
-    background-color: #0f131d;
-    color: #dfe2f1;
+    background-color: #ffffff;
+    color: #1e293b;
   }
 }
 
@@ -23,14 +23,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0e18;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #262a35;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #313540;
+  background: #94a3b8;
 }
 
 @keyframes shimmer {

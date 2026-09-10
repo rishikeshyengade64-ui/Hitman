@@ -24,21 +24,17 @@ export const SportzoneLogo = ({ size = 'md', showText = true, className = '' }) 
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="shrink-0 drop-shadow-[0_0_12px_rgba(204,255,0,0.35)] transition-transform duration-300 group-hover:scale-105"
+        className="shrink-0 drop-shadow-[0_2px_8px_rgba(22,163,74,0.25)] transition-transform duration-300 group-hover:scale-105"
       >
         <defs>
           <linearGradient id="szVoltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#CCFF00" />
-            <stop offset="60%" stopColor="#80FF00" />
-            <stop offset="100%" stopColor="#00F5D4" />
+            <stop offset="0%" stopColor="#84CC16" />
+            <stop offset="60%" stopColor="#16A34A" />
+            <stop offset="100%" stopColor="#059669" />
           </linearGradient>
           <linearGradient id="szCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00F5D4" />
-            <stop offset="100%" stopColor="#00B4D8" />
-          </linearGradient>
-          <linearGradient id="szDarkCut" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0F131D" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#0F131D" stopOpacity="0" />
+            <stop offset="0%" stopColor="#06B6D4" />
+            <stop offset="100%" stopColor="#0284C7" />
           </linearGradient>
         </defs>
 
@@ -71,10 +67,10 @@ export const SportzoneLogo = ({ size = 'md', showText = true, className = '' }) 
         {/* Speed Angle Accent Line */}
         <path
           d="M48 10L24 54"
-          stroke="#CCFF00"
+          stroke="#16A34A"
           strokeWidth="2.5"
           strokeLinecap="round"
-          opacity="0.75"
+          opacity="0.85"
         />
       </svg>
 
@@ -84,7 +80,7 @@ export const SportzoneLogo = ({ size = 'md', showText = true, className = '' }) 
           <span className={`text-primary ${config.fontSize} tracking-wide italic`}>
             SPORT
           </span>
-          <span className={`text-primary-fixed ${config.zoneSize} tracking-wide italic ml-0.5 drop-shadow-[0_0_8px_rgba(204,255,0,0.4)]`}>
+          <span className={`text-primary-fixed ${config.zoneSize} tracking-wide italic ml-0.5 drop-shadow-[0_1px_4px_rgba(22,163,74,0.25)]`}>
             ZONE
           </span>
         </div>

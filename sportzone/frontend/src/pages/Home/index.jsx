@@ -68,8 +68,8 @@ export const HomePage = () => {
       {/* HERO SECTION: High-Voltage Athletic Theatre (Dark Kinetic Obsidian) */}
       <section className="relative w-full overflow-hidden bg-gradient-to-b from-surface via-surface-container-lowest to-surface border-b border-surface-container-high/60 py-space-3xl">
         {/* Dynamic Atmospheric Glows */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#ccff00]/15 rounded-full blur-[160px] pointer-events-none"></div>
-        <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-secondary-container/20 rounded-full blur-[160px] pointer-events-none"></div>
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary-fixed/5 rounded-full blur-[140px] pointer-events-none"></div>
+        <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-secondary-container/5 rounded-full blur-[140px] pointer-events-none"></div>
 
         <div className="max-w-[1440px] mx-auto px-space-md lg:px-space-xl relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
@@ -144,7 +144,7 @@ export const HomePage = () => {
                     2025 FLAGSHIP DROP
                   </span>
                 </div>
-                <div className="absolute bottom-space-lg left-space-lg right-space-lg bg-surface-container-highest/90 backdrop-blur-md p-space-md rounded-xl border border-surface-variant flex items-center justify-between">
+                <div className="absolute bottom-space-lg left-space-lg right-space-lg bg-surface-container-low/95 backdrop-blur-md p-space-md rounded-xl border border-surface-container-high shadow-lg flex items-center justify-between">
                   <div>
                     <h3 className="font-title-base text-title-base text-primary uppercase font-bold truncate">
                       CarbonVolt Strider

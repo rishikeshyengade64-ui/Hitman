@@ -1,0 +1,16 @@
+# OS and Editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+*.iml
+
+# Java / Maven
+target/
+*.class
+
+# Node / Vite
+node_modules/
+.npm
+.eslintcache

@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Cache dependencies layer
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+RUN mvn dependency:resolve -B
 
 # Build application JAR skipping tests
 COPY src ./src
