@@ -12,8 +12,11 @@ target/
 *.class
 
 # Node / Vite
+**/node_modules/
 node_modules/
 **/dist/
 dist/
 .npm
 .eslintcache
+.env.local
+.env.*.local

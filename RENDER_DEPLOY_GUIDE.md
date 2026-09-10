@@ -83,7 +83,7 @@ If you prefer deploying services individually through the Render Web Dashboard, 
 2. Connect your repository.
 3. Configure the settings:
    - **Name**: `sportzone-frontend`
-   - **Root Directory**: `sportzone/frontend`
+   - **Root Directory**: `frontend` (or `sportzone/frontend`)
    - **Build Command**: `npm install && npm run build`
    - **Publish Directory**: `dist`
 4. Under **Redirects / Rewrites**, add the Single Page App (SPA) rule:

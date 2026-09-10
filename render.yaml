@@ -43,7 +43,7 @@ services:
   - type: web
     name: sportzone-frontend
     runtime: static
-    rootDir: sportzone/frontend
+    rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     plan: free
