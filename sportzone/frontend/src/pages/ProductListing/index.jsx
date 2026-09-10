@@ -26,6 +26,13 @@ export const ProductListingPage = () => {
   // Grid view column state: '4col', '3col', 'list'
   const [viewMode, setViewMode] = useState('4col');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
+
+  const activeFilterCount =
+    (selectedCategory ? 1 : 0) +
+    (searchQuery ? 1 : 0) +
+    (brandParam ? 1 : 0) +
+    (inStockParam ? 1 : 0);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -122,6 +129,97 @@ export const ProductListingPage = () => {
     e.stopPropagation();
     await addToCart(product.id, null, 1, product);
   };
+
+  const renderFilterContent = () => (
+    <>
+      {/* Category Filter */}
+      <div className="space-y-space-xs">
+        <h2 className="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-bold text-xs">
+          Sport Category
+        </h2>
+        <div className="space-y-1 text-on-surface font-body-sm text-body-sm">
+          <label
+            onClick={() => updateFilter('category', '')}
+            className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${
+              !selectedCategory ? 'bg-surface-container text-primary-fixed font-bold' : 'hover:bg-surface-container'
+            }`}
+          >
+            <span>All Sports</span>
+            <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">
+              {totalItems}
+            </span>
+          </label>
+          {categories.map((cat) => {
+            const catCount = ALL_PRODUCTS.filter((p) => p.categorySlug === cat.slug).length;
+            return (
+              <label
+                key={cat.id}
+                onClick={() => updateFilter('category', selectedCategory === cat.slug ? '' : cat.slug)}
+                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${
+                  selectedCategory === cat.slug ? 'bg-surface-container text-primary-fixed font-bold' : 'hover:bg-surface-container'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategory === cat.slug}
+                    readOnly
+                    className="accent-primary-fixed w-4 h-4 rounded cursor-pointer"
+                  />
+                  <span>{cat.name}</span>
+                </span>
+                <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">
+                  {catCount}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Brand Filter */}
+      <div className="space-y-space-xs pt-space-md border-t border-surface-container-high">
+        <h2 className="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-bold text-xs">
+          Brand
+        </h2>
+        <div className="space-y-1 text-on-surface font-body-sm text-body-sm">
+          {['Apex Athletic', 'ProCircuit', 'AeroSpeed', 'CarbonForce'].map((brand) => (
+            <label
+              key={brand}
+              onClick={() => updateFilter('brand', brandParam === brand ? '' : brand)}
+              className="flex items-center justify-between p-1.5 rounded hover:bg-surface-container cursor-pointer transition-colors"
+            >
+              <span className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={brandParam === brand}
+                  readOnly
+                  className="accent-primary-fixed w-4 h-4 rounded cursor-pointer"
+                />
+                <span>{brand}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Stock Filter */}
+      <div className="pt-space-md border-t border-surface-container-high">
+        <label
+          onClick={() => updateFilter('inStock', !inStockParam)}
+          className="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-surface-container"
+        >
+          <input
+            type="checkbox"
+            checked={inStockParam}
+            readOnly
+            className="accent-primary-fixed w-4 h-4 rounded cursor-pointer"
+          />
+          <span className="font-body-sm text-body-sm text-on-surface font-medium">In Stock Only</span>
+        </label>
+      </div>
+    </>
+  );
 
   return (
     <div className="flex flex-col w-full">
@@ -232,13 +330,32 @@ export const ProductListingPage = () => {
               </button>
             </div>
 
-            {/* Mobile Filter Trigger */}
+            {/* Three-Dot Filter Trigger Button */}
             <button
-              onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-              className="lg:hidden flex items-center gap-space-xs bg-primary-fixed text-on-primary font-label-caps text-label-caps px-space-md py-2 rounded uppercase font-bold"
+              type="button"
+              onClick={() => {
+                if (window.innerWidth < 1024) {
+                  setMobileFilterOpen(true);
+                } else {
+                  setShowFilters((prev) => !prev);
+                }
+              }}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border font-label-caps text-xs uppercase font-bold transition-all shadow-sm cursor-pointer select-none ${
+                showFilters
+                  ? 'bg-surface-container-lowest text-primary border-surface-container-high hover:bg-surface-container'
+                  : 'bg-primary-fixed text-on-primary border-primary-fixed hover:bg-primary-fixed-dim'
+              }`}
+              title={showFilters ? 'Hide Filters' : 'Show Filters'}
+              aria-label={showFilters ? 'Hide Filters' : 'Show Filters'}
             >
-              <span className="material-symbols-outlined text-base">tune</span>
-              Filters
+              <span className="material-symbols-outlined text-xl leading-none font-bold">more_vert</span>
+              <span className="hidden sm:inline">{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+              <span className="sm:hidden">Filters</span>
+              {activeFilterCount > 0 && (
+                <span className="ml-0.5 w-4 h-4 rounded-full bg-secondary-container text-on-secondary-container text-[10px] flex items-center justify-center font-bold font-mono">
+                  {activeFilterCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -295,117 +412,129 @@ export const ProductListingPage = () => {
           </div>
         )}
 
-        {/* Catalog 2-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
-          {/* Filter Sidebar (Desktop & Mobile Drawer) */}
-          <aside className={`lg:block lg:col-span-3 sticky top-28 bg-surface-container-lowest rounded-xl p-space-md space-y-space-lg shadow-md border border-surface-container-high/60 ${mobileFilterOpen ? 'block fixed inset-0 z-50 overflow-y-auto bg-surface p-6' : 'hidden'}`}>
-            <div className="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
-              <div className="flex items-center gap-space-xs">
-                <span className="material-symbols-outlined text-primary-fixed">tune</span>
-                <span className="font-headline-md text-headline-md uppercase text-primary font-bold">Filters</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button onClick={clearAllFilters} className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed underline">
-                  Reset
-                </button>
-                {mobileFilterOpen && (
-                  <button onClick={() => setMobileFilterOpen(false)} className="lg:hidden p-1 text-primary">
+        {/* Mobile Filter Slide-Over Drawer */}
+        {mobileFilterOpen && (
+          <div className="fixed inset-0 z-50 flex lg:hidden">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-primary/40 backdrop-blur-xs transition-opacity"
+              onClick={() => setMobileFilterOpen(false)}
+            />
+
+            {/* Slide-over panel */}
+            <div className="relative ml-auto w-full max-w-xs sm:max-w-sm h-full bg-surface shadow-2xl flex flex-col z-10 animate-slide-in-right">
+              {/* Header */}
+              <div className="p-4 border-b border-surface-container-high flex items-center justify-between bg-surface-container-lowest">
+                <div className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-primary-fixed text-xl">more_vert</span>
+                  <h2 className="font-headline-md uppercase text-primary font-bold text-base">Filters</h2>
+                  {activeFilterCount > 0 && (
+                    <span className="w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container text-xs flex items-center justify-center font-bold">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  {activeFilterCount > 0 && (
+                    <button
+                      onClick={clearAllFilters}
+                      className="text-xs text-on-surface-variant hover:text-primary-fixed underline"
+                    >
+                      Reset
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setMobileFilterOpen(false)}
+                    className="p-1.5 rounded-lg text-on-surface hover:bg-surface-container transition-colors"
+                    aria-label="Close filters"
+                  >
                     <span className="material-symbols-outlined text-xl">close</span>
                   </button>
-                )}
+                </div>
               </div>
-            </div>
 
-            {/* Category Filter */}
-            <div className="space-y-space-xs">
-              <h2 className="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-bold text-xs">
-                Sport Category
-              </h2>
-              <div className="space-y-1 text-on-surface font-body-sm text-body-sm">
-                <label
-                  onClick={() => updateFilter('category', '')}
-                  className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${
-                    !selectedCategory ? 'bg-surface-container text-primary-fixed font-bold' : 'hover:bg-surface-container'
-                  }`}
+              {/* Filter List Body */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-6">
+                {renderFilterContent()}
+              </div>
+
+              {/* Bottom Action Footer */}
+              <div className="p-4 border-t border-surface-container-high bg-surface-container-lowest flex gap-2">
+                <button
+                  onClick={clearAllFilters}
+                  className="flex-1 py-2.5 px-3 border border-surface-container-high text-primary font-label-caps uppercase text-xs font-bold rounded-lg hover:bg-surface-container transition-colors"
                 >
-                  <span>All Sports</span>
-                  <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">
-                    {totalItems}
-                  </span>
-                </label>
-                {categories.map((cat) => {
-                  const catCount = ALL_PRODUCTS.filter((p) => p.categorySlug === cat.slug).length;
-                  return (
-                    <label
-                      key={cat.id}
-                      onClick={() => updateFilter('category', selectedCategory === cat.slug ? '' : cat.slug)}
-                      className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${
-                        selectedCategory === cat.slug ? 'bg-surface-container text-primary-fixed font-bold' : 'hover:bg-surface-container'
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={selectedCategory === cat.slug}
-                          readOnly
-                          className="accent-primary-fixed w-4 h-4 rounded"
-                        />
-                        <span>{cat.name}</span>
-                      </span>
-                      <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">
-                        {catCount}
-                      </span>
-                    </label>
-                  );
-                })}
+                  Reset All
+                </button>
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="flex-1 py-2.5 px-3 bg-primary-fixed text-on-primary font-label-caps uppercase text-xs font-bold rounded-lg hover:bg-primary-fixed-dim transition-colors shadow"
+                >
+                  Show ({totalItems})
+                </button>
               </div>
             </div>
+          </div>
+        )}
 
-            {/* Brand Filter */}
-            <div className="space-y-space-xs pt-space-md border-t border-surface-container-high">
-              <h2 className="font-label-caps text-label-caps uppercase text-on-surface tracking-wider font-bold text-xs">
-                Brand
-              </h2>
-              <div className="space-y-1 text-on-surface font-body-sm text-body-sm">
-                {['Apex Athletic', 'ProCircuit', 'AeroSpeed', 'CarbonForce'].map((brand) => (
-                  <label
-                    key={brand}
-                    onClick={() => updateFilter('brand', brandParam === brand ? '' : brand)}
-                    className="flex items-center justify-between p-1.5 rounded hover:bg-surface-container cursor-pointer transition-colors"
-                  >
-                    <span className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={brandParam === brand}
-                        readOnly
-                        className="accent-primary-fixed w-4 h-4 rounded"
-                      />
-                      <span>{brand}</span>
+        {/* Catalog Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+          {/* Desktop Filter Sidebar */}
+          {showFilters && (
+            <aside className="hidden lg:block lg:col-span-3 sticky top-28 bg-surface-container-lowest rounded-xl p-space-md space-y-space-lg shadow-sm border border-surface-container-high/60 transition-all duration-300">
+              <div className="flex items-center justify-between pb-space-xs border-b border-surface-container-high">
+                <div className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-primary-fixed text-xl">more_vert</span>
+                  <span className="font-headline-md text-headline-md uppercase text-primary font-bold">Filters</span>
+                  {activeFilterCount > 0 && (
+                    <span className="w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container text-xs flex items-center justify-center font-bold font-mono">
+                      {activeFilterCount}
                     </span>
-                  </label>
-                ))}
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  {activeFilterCount > 0 && (
+                    <button
+                      onClick={clearAllFilters}
+                      className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed underline"
+                    >
+                      Reset
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    title="Hide Filters"
+                    className="p-1 rounded text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-lg">close</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Stock Filter */}
-            <div className="pt-space-md border-t border-surface-container-high">
-              <label
-                onClick={() => updateFilter('inStock', !inStockParam)}
-                className="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-surface-container"
-              >
-                <input
-                  type="checkbox"
-                  checked={inStockParam}
-                  readOnly
-                  className="accent-primary-fixed w-4 h-4 rounded"
-                />
-                <span className="font-body-sm text-body-sm text-on-surface font-medium">In Stock Only</span>
-              </label>
-            </div>
-          </aside>
+              {renderFilterContent()}
+            </aside>
+          )}
 
-          {/* Product Grid (9 cols on desktop) */}
-          <main className="lg:col-span-9 flex flex-col gap-space-lg">
+          {/* Product Grid (conditionally 9 or 12 cols on desktop) */}
+          <main className={`${showFilters ? 'lg:col-span-9' : 'lg:col-span-12'} flex flex-col gap-space-lg transition-all duration-300`}>
+            {/* Desktop Notification Banner when filters are collapsed */}
+            {!showFilters && (
+              <div className="hidden lg:flex items-center justify-between p-3 px-4 bg-surface-container-low border border-surface-container-high/70 rounded-xl shadow-xs">
+                <div className="flex items-center gap-2 text-on-surface-variant text-sm">
+                  <span className="material-symbols-outlined text-primary-fixed text-lg">more_vert</span>
+                  <span>Filters are currently collapsed for full-width grid view.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowFilters(true)}
+                  className="flex items-center gap-1 text-xs font-label-caps uppercase font-bold text-primary-fixed hover:text-primary-fixed-dim underline cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-base">more_vert</span>
+                  Show Filters
+                </button>
+              </div>
+            )}
+
             {loading ? (
               <div className="py-20 flex flex-col items-center justify-center gap-4">
                 <span className="material-symbols-outlined text-4xl text-primary-fixed animate-spin">sync</span>
@@ -433,8 +562,12 @@ export const ProductListingPage = () => {
                   viewMode === 'list'
                     ? 'flex flex-col gap-space-md'
                     : viewMode === '3col'
-                    ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-space-lg'
-                    : 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-lg'
+                    ? showFilters
+                      ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-space-lg'
+                      : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-lg'
+                    : showFilters
+                    ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-lg'
+                    : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-space-lg'
                 }
               >
                 {products.map((product) => (

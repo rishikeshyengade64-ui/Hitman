@@ -7,10 +7,13 @@ Thumbs.db
 *.iml
 
 # Java / Maven
+**/target/
 target/
 *.class
 
 # Node / Vite
 node_modules/
+**/dist/
+dist/
 .npm
 .eslintcache
