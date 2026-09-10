@@ -1,6 +1,10 @@
 # ==========================================================
 # Spring Boot Configuration: PostgreSQL (Render Production)
 # ==========================================================
+server:
+  port: ${PORT:8080}
+  address: 0.0.0.0
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -14,14 +18,16 @@ spring:
       minimum-idle: ${HIKARI_MIN_IDLE:2}
       idle-timeout: 30000
       max-lifetime: 1800000
-      connection-timeout: 30000
+      connection-timeout: 15000
+      initialization-fail-timeout: -1
       pool-name: SportZonePostgresPool
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     show-sql: false
+    open-in-view: false
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: false
