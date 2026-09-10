@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Cache dependencies
 COPY backend/pom.xml ./pom.xml
-RUN mvn dependency:go-offline -B
+RUN mvn dependency:resolve -B
 
 # Copy backend source and build JAR
 COPY backend/src ./src
