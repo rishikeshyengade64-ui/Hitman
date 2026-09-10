@@ -92,6 +92,10 @@ export const Navbar = () => {
                 <span className="material-symbols-outlined text-xs">expand_more</span>
               </button>
               <div className="absolute top-[72px] left-0 hidden group-hover:flex flex-col w-56 bg-surface-container-high/95 backdrop-blur-xl rounded-lg p-space-sm shadow-[0_8px_24px_rgba(0,0,0,0.6)] border border-surface-variant z-50 animate-fadeIn">
+                <Link to="/shop?category=badminton" className="px-space-sm py-space-xs rounded font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container-highest transition-colors flex items-center justify-between">
+                  Badminton
+                  <span className="text-[10px] text-primary-fixed uppercase tracking-wider font-mono font-bold">New</span>
+                </Link>
                 <Link to="/shop?category=cricket" className="px-space-sm py-space-xs rounded font-body-sm text-body-sm text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container-highest transition-colors">
                   Cricket
                 </Link>

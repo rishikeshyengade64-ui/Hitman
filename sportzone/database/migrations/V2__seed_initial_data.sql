@@ -32,6 +32,7 @@ BEGIN
     ('Cricket', 'cricket', 'Tournament-spec English willow bats, protective gear, and footwear.', 'sports_cricket', 164),
     ('Basketball', 'basketball', 'High-traction court shoes, jerseys, and responsive indoor/outdoor basketballs.', 'sports_basketball', 129),
     ('Tennis', 'tennis', 'Aerodynamic carbon fiber racquets, court footwear, and moisture-wicking apparel.', 'sports_tennis', 108),
+    ('Badminton', 'badminton', 'Tournament graphite rackets, aero feather shuttlecocks, and court gear.', 'sports_tennis', 145),
     ('Gym & Fitness', 'gym-fitness', 'Strength training accessories, compression wear, and hydration tech.', 'fitness_center', 195),
     ('Cycling', 'cycling', 'Aerodynamic cycling helmets, speed bibs, and carbon fiber road accessories.', 'pedal_bike', 92);
 END;
@@ -42,6 +43,7 @@ DECLARE @footballId BIGINT = (SELECT id FROM categories WHERE slug = 'football')
 DECLARE @cricketId BIGINT = (SELECT id FROM categories WHERE slug = 'cricket');
 DECLARE @basketballId BIGINT = (SELECT id FROM categories WHERE slug = 'basketball');
 DECLARE @tennisId BIGINT = (SELECT id FROM categories WHERE slug = 'tennis');
+DECLARE @badmintonId BIGINT = (SELECT id FROM categories WHERE slug = 'badminton');
 DECLARE @gymId BIGINT = (SELECT id FROM categories WHERE slug = 'gym-fitness');
 
 IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CV-88219')
@@ -206,6 +208,141 @@ BEGIN
         0,
         160,
         'https://lh3.googleusercontent.com/aida-public/AB6AXuAJTthylbmgq7TeXam-LqdYujXC8yXBMgp_I3TMRseslcs3uj1S7yJ_JA0iEkQfXWGeiH_JBWnXkN80PnQx-SSC9oqIe0LWE-nVCxa7qR8-GBZTdAPlkU0fgkmm7YaB4tUZWZAa-w3-1vCqW2a3Mx07yBw3m-zxFsKDUJ5FLuSQjD0pMwmy-JG14o_ukflaxo6BbBQphjoEAEUdE29wZuQBu3UIjg2Sk_iKq3MyYxTTfY6FxEeDbORR'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CR-99205')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Red Crown 4-Piece Leather Match Cricket Ball',
+        'apex-red-crown-leather-match-cricket-ball',
+        'SZ-CR-99205',
+        'Hand-stitched Portuguese cork core encased in grade-A alum-tanned steer hide. 80-stitching seam delivers pronounced swing in humid conditions and prolonged durability over 80+ overs.',
+        34.99,
+        45.00,
+        22,
+        'Apex Athletic',
+        @cricketId,
+        1,
+        120,
+        4.94,
+        64,
+        0,
+        1,
+        156,
+        'https://images.unsplash.com/photo-1593341646782-e0b495cff86d?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-BM-77101')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex VoltStrike Carbon 900 Pro Badminton Racket',
+        'apex-voltstrike-carbon-900-pro-badminton-racket',
+        'SZ-BM-77101',
+        'Engineered with high-modulus Japanese Toray HM graphite and an ultra-thin 6.6mm aero-dynamic shaft. Pre-strung at 28 lbs tension with high-elasticity braided nanotech string.',
+        149.99,
+        180.00,
+        17,
+        'Apex Athletic',
+        @badmintonId,
+        1,
+        45,
+        4.96,
+        78,
+        1,
+        1,
+        83,
+        'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-BM-77202')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex AeroFlight Feather Shuttlecocks (Tube of 12)',
+        'apex-aeroflight-feather-shuttlecocks-12',
+        'SZ-BM-77202',
+        'BWF approved tournament speed 77 goose feather shuttlecocks. Crafted from selected grade-A straight feathers with premium composite natural cork base for consistent flight trajectory.',
+        29.99,
+        36.00,
+        17,
+        'Apex Athletic',
+        @badmintonId,
+        1,
+        85,
+        4.91,
+        112,
+        0,
+        1,
+        60,
+        'https://images.unsplash.com/photo-1521537634581-0dced2fee2ef?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-BB-33405')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex GripForce Official Game Basketball Size 7',
+        'apex-gripforce-official-game-basketball-size-7',
+        'SZ-BB-33405',
+        'FIBA regulation size 7 indoor/outdoor composite leather basketball with deep-channel design for tactile grip, moisture-absorbing composite surface, and rotational balance core.',
+        59.99,
+        75.00,
+        20,
+        'Apex Athletic',
+        @basketballId,
+        1,
+        90,
+        4.89,
+        95,
+        0,
+        1,
+        620,
+        'https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-TN-44208')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Tour Championship Extra Duty Felt Tennis Balls (Can of 3)',
+        'tour-championship-extra-duty-tennis-balls',
+        'SZ-TN-44208',
+        'ITF & USTA certified tournament pressurized tennis balls. Extra-duty woven interlocking felt resists fuzzing on hard court surfaces while the premium rubber core maintains lively bounce.',
+        18.99,
+        24.99,
+        24,
+        'Apex Athletic',
+        @tennisId,
+        1,
+        150,
+        4.88,
+        71,
+        0,
+        1,
+        175,
+        'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=800&q=80'
     );
 END;
 

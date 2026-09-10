@@ -4,6 +4,7 @@ import { productService } from '../../services/productService';
 import { categoryService } from '../../services/categoryService';
 import useCart from '../../hooks/useCart';
 import { formatCurrency } from '../../utils/formatters';
+import { ALL_CATEGORIES, ALL_PRODUCTS } from '../../data/catalog';
 
 export const ProductListingPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,17 +31,9 @@ export const ProductListingPage = () => {
     const loadCategories = async () => {
       try {
         const cats = await categoryService.getAllCategories();
-        setCategories(cats || []);
+        setCategories(cats && cats.length > 0 ? cats : ALL_CATEGORIES);
       } catch (err) {
-        setCategories([
-          { id: 1, name: 'Running', slug: 'running', itemCount: 342 },
-          { id: 2, name: 'Football', slug: 'football', itemCount: 218 },
-          { id: 3, name: 'Cricket', slug: 'cricket', itemCount: 164 },
-          { id: 4, name: 'Basketball', slug: 'basketball', itemCount: 129 },
-          { id: 5, name: 'Tennis', slug: 'tennis', itemCount: 108 },
-          { id: 6, name: 'Gym & Fitness', slug: 'gym-fitness', itemCount: 195 },
-          { id: 7, name: 'Cycling', slug: 'cycling', itemCount: 92 },
-        ]);
+        setCategories(ALL_CATEGORIES);
       }
     };
     loadCategories();
@@ -76,114 +69,33 @@ export const ProductListingPage = () => {
     };
 
     const fallbackProducts = () => {
-      const defaultCatalog = [
-        {
-          id: 1,
-          title: 'CarbonVolt Strider Road Racing Shoes',
-          slug: 'carbonvolt-strider-road-racing-shoes',
-          sku: 'SZ-CV-88219',
-          price: 199.99,
-          msrp: 220.00,
-          discountPercentage: 9,
-          brand: 'Apex Athletic',
-          categorySlug: 'running',
-          categoryName: 'Running',
-          inStock: true,
-          rating: 4.95,
-          reviewCount: 142,
-          primaryImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDKmDVOu-fCXOb_FraoY84dlcYkkrDTbQZobWus_qgHS8e7_2XyC-6TmpSuUvF3xB5pm2lhwQiZ5HI4pM0IhV5iK_mw9m3Y8ixoAz2P_bsJ8Yh9MHAesN-blLKIK0_SD7wSrG0Q5Dv1S7VPxFY95pEXRFmp-OrI_fBc-g5istAzBGByBdjl7b4-mdaJPooYLqQIMNWsF8_OAeE0Qjl1KltPQw-234DqQ6vfy1raW6vD-M0wi0e5E72L',
-        },
-        {
-          id: 2,
-          title: 'Pro Match Thermal Bonded Football Size 5',
-          slug: 'pro-match-thermal-bonded-football-size-5',
-          sku: 'SZ-FB-55420',
-          price: 79.99,
-          msrp: 99.99,
-          discountPercentage: 20,
-          brand: 'Apex Athletic',
-          categorySlug: 'football',
-          categoryName: 'Football',
-          inStock: true,
-          rating: 4.88,
-          reviewCount: 94,
-          primaryImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEwRzCkqve6Jvrm4Jkc8I6sbS3E_QVSf_poeGCB3l9-SvTmf2D0OBpwa9BpVt24Fjs34X4xCUeN5uQZiUVekuAn-8hAeObk9Z3jwE-T_8MNSVuSfkH3WHEVsfmV2m3C0OpXMnwcmH5nZVb5WxvE6LB0iQs96X4Dp0EcK7HD_rlcH6S9AHcswwbTDlvYuGjnxefIZLjfosuc984-3o22GcEKULu4z6-0qJ8Ku8ojQmv7eAuNF2uziY9',
-        },
-        {
-          id: 3,
-          title: 'Apex Pro Elite Carbon Cricket Bat',
-          slug: 'apex-pro-elite-carbon-cricket-bat',
-          sku: 'SZ-CR-99101',
-          price: 289.99,
-          msrp: 320.00,
-          discountPercentage: 10,
-          brand: 'Apex Athletic',
-          categorySlug: 'cricket',
-          categoryName: 'Cricket',
-          inStock: true,
-          rating: 4.92,
-          reviewCount: 68,
-          primaryImageUrl: 'https://lh3.googleusercontent.com/aida/AEtjO1U1O0QJq0k7J-D3PAeMH_ig1t4sP4XufEo0m_25P1vpN3i1znnB9CFWCfbu2zt1u8ThXNVNoypoJFqWAqYK6-nBZe-_WRRsbafrKfbiOvlLKYw5SF4MDxQWNAclH7f4qwgo3qarSx-it4zTX5LsZ9JRODii8j5BsAyskKuM1a6OOT-WTWkysYH7wtmWukc-e5wlbimcKYeyB8gBbdwaXDf7qOhODbFSN7j8PC0LdwdD0_cdAZ8RdUxwplg',
-        },
-        {
-          id: 4,
-          title: 'CourtVelocity HyperGrip Basketball Shoes',
-          slug: 'courtvelocity-hypergrip-basketball-shoes',
-          sku: 'SZ-BB-33201',
-          price: 159.99,
-          msrp: 180.00,
-          discountPercentage: 11,
-          brand: 'Apex Athletic',
-          categorySlug: 'basketball',
-          categoryName: 'Basketball',
-          inStock: true,
-          rating: 4.84,
-          reviewCount: 81,
-          primaryImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDdN4TwH3ZN4LFzRVxJt2v6JZvc9jWnbiIPvCI8BZ1eFBA61zg8QKa4csYdekFc95WzkMj7SdFhDRdYnRBih3eMwYPXUh6AupdrGxQD9-aINGiR2T80GPhVb_aSvGCgHGa89R6muY-bxE0UngYZnHS1e27eN_F66mfAE31CY_P9uOPA-Szk8qanUbtwiCmjmwSzmiU9n07Ay6CZLb7TN4rLrUPh0dXG_bZE8Ldh7u92D9Zy3jbFewPq',
-        },
-        {
-          id: 5,
-          title: 'Aeroflex Court Pro 98 Tennis Racket',
-          slug: 'aeroflex-court-pro-98-tennis-racket',
-          sku: 'SZ-TN-44102',
-          price: 219.99,
-          msrp: 249.99,
-          discountPercentage: 12,
-          brand: 'Apex Athletic',
-          categorySlug: 'tennis',
-          categoryName: 'Tennis',
-          inStock: true,
-          rating: 4.90,
-          reviewCount: 53,
-          primaryImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAEbx1R6cWtQINCkizgrUTpUs6PBPK7vuYRQus0qu_3b_tkQOIYbukJ_0S9RLgS8O6-z26X8_4QEmML9RxgnMjm58rFFwL9yE4xseFqLvNCazViClmbBmtvIZRzbSrK1lY0CVWbI3VAe0JjjrKSpkrNQc9_HyrojbOPnX3rYlqNoqbxfeQ1gA6IJCxusuoP8fJVp19B592l3dChjRKL2W1jhHgfD1oqeU7Mpwu6KvOfA1_cAggNNWVQ',
-        },
-        {
-          id: 6,
-          title: 'Kinetic Velocity 2-in-1 Compression Shorts',
-          slug: 'kinetic-velocity-2-in-1-compression-shorts',
-          sku: 'SZ-AP-11002',
-          price: 49.99,
-          msrp: 60.00,
-          discountPercentage: 17,
-          brand: 'Apex Athletic',
-          categorySlug: 'gym-fitness',
-          categoryName: 'Gym & Fitness',
-          inStock: true,
-          rating: 4.79,
-          reviewCount: 110,
-          primaryImageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAJTthylbmgq7TeXam-LqdYujXC8yXBMgp_I3TMRseslcs3uj1S7yJ_JA0iEkQfXWGeiH_JBWnXkN80PnQx-SSC9oqIe0LWE-nVCxa7qR8-GBZTdAPlkU0fgkmm7YaB4tUZWZAa-w3-1vCqW2a3Mx07yBw3m-zxFsKDUJ5FLuSQjD0pMwmy-JG14o_ukflaxo6BbBQphjoEAEUdE29wZuQBu3UIjg2Sk_iKq3MyYxTTfY6FxEeDbORR',
-        },
-      ];
-
-      // Filter locally if fallback
-      let filtered = defaultCatalog;
+      let filtered = [...ALL_PRODUCTS];
       if (selectedCategory) {
         filtered = filtered.filter((p) => p.categorySlug === selectedCategory);
       }
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
-        filtered = filtered.filter((p) => p.title.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+        filtered = filtered.filter((p) => 
+          p.title.toLowerCase().includes(q) || 
+          p.brand.toLowerCase().includes(q) ||
+          (p.categoryName && p.categoryName.toLowerCase().includes(q))
+        );
       }
+      if (brandParam) {
+        filtered = filtered.filter((p) => p.brand.toLowerCase() === brandParam.toLowerCase());
+      }
+      if (inStockParam) {
+        filtered = filtered.filter((p) => p.inStock);
+      }
+
+      if (selectedSort === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (selectedSort === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (selectedSort === 'rating') {
+        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      }
+
       setProducts(filtered);
       setTotalItems(filtered.length);
     };

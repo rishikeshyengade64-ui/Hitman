@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { productService } from '../../services/productService';
 import useCart from '../../hooks/useCart';
 import { formatCurrency, formatNormalSize, formatIndianSize } from '../../utils/formatters';
+import { getCatalogProductById } from '../../data/catalog';
 
 export const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -16,110 +17,38 @@ export const ProductDetailsPage = () => {
   const [selectedColor, setSelectedColor] = useState('Volt Neon / Obsidian');
   const [quantity, setQuantity] = useState(1);
   const [addedToast, setAddedToast] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
+      setSelectedImageIndex(0);
       try {
         const data = await productService.getProductById(id || 1);
-        if (data) {
+        if (data && data.title) {
           setProduct(data);
           if (data.variants && data.variants.length > 0) {
             setSelectedSize(formatNormalSize(data.variants[0].size));
             setSelectedColor(data.variants[0].color);
           }
+        } else {
+          loadFallback();
         }
       } catch (err) {
         console.error('Error fetching product details:', err);
-        // Fallback product matching Stitch screen exactly
-        setProduct({
-          id: 1,
-          title: 'CarbonVolt Strider Road Racing Shoes',
-          slug: 'carbonvolt-strider-road-racing-shoes',
-          sku: 'SZ-CV-88219',
-          description:
-            'Engineered for elite marathoners and road racers seeking maximum velocity and explosive energy return. Features a full-length 3K curved carbon fiber propulsion plate sandwiched between twin layers of ultra-resilient AeroFoam+ cushioning.',
-          price: 199.99,
-          msrp: 220.00,
-          discountPercentage: 9,
-          brand: 'Apex Athletic',
-          categoryName: 'Running Footwear',
-          rating: 4.95,
-          reviewCount: 142,
-          inStock: true,
-          stockQuantity: 85,
-          weightGrams: 215,
-          midsoleTech: 'AeroFoam+ Max',
-          propulsionUnit: '100% 3K Carbon',
-          dropHeightMm: 8.0,
-          images: [
-            {
-              id: 1,
-              imageUrl:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuDKmDVOu-fCXOb_FraoY84dlcYkkrDTbQZobWus_qgHS8e7_2XyC-6TmpSuUvF3xB5pm2lhwQiZ5HI4pM0IhV5iK_mw9m3Y8ixoAz2P_bsJ8Yh9MHAesN-blLKIK0_SD7wSrG0Q5Dv1S7VPxFY95pEXRFmp-OrI_fBc-g5istAzBGByBdjl7b4-mdaJPooYLqQIMNWsF8_OAeE0Qjl1KltPQw-234DqQ6vfy1raW6vD-M0wi0e5E72L',
-              angleLabel: 'Lateral',
-            },
-            {
-              id: 2,
-              imageUrl:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuDaqi-yAQlSfg6TLXnEBvTl_iv8IZDQgtEbtbghzsCWEzcsH7nffgTPakQmPxKQHaVTVEB0Xiah0S5NSoayRKDC6yHh8jxkoDe9gFpFVzJiwSphj_825to1Pt_-FAUBF-w0ogS6MdTH4uF8v4xWis4cEFsOOXS_DCwQdH-Rj7tL-jyi-_3EIUI6qJjgsVKZJPGKfZy9r0iCmZw6CKKYKlyEzFoWSMSCswk2IYAupzMjWTL-2b6Fvt7_',
-              angleLabel: 'Medial',
-            },
-            {
-              id: 3,
-              imageUrl:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuDQ_ez5fMBgxDxnyNudMrAUkz-WVl75AV7uZyx0qm6Ty7hoUbRAJc07ZmmizKXODdcxCrUyGu3veaWoMXtwZkeYk9el81ICMj0zbOOB6WakDr-RkLGGGN25cuIru333YxN-f3FaNBeA01qjbDn-yhHekuRUe7iIMzHOMIcAp2Ym7gdn74ND2o0MWfcdnhaonQdufbLNlAmy6_vJiRUXyt6ZOIzWEgzdQiyapLhGiQBHptNcyj7tNRna',
-              angleLabel: 'Toe-Box',
-            },
-            {
-              id: 4,
-              imageUrl:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuC0zr3x9IGi1KIfQuKfi5JqURbZGho_mKtFI4ZM8hdUlBJQ-CFseKPRklCMH0ED2yZkCF-t3VcJVsGETzZkzGXoR-QTcCtkiu7kgGL9r6an-__MXIMCa9N2dpsiWcjPnx3Pj7_4lipW9_E50M9t67_fIaFDJi6hDNmQQkmx9_WHYa3BQX8puKQmaCfsxhvDiuwTIhMAAztp5yJzFBRD1uhF3iu1Io9hrb4kcH8c5XINl60O0b3TdjC3',
-              angleLabel: 'Carbon Outsole',
-            },
-            {
-              id: 5,
-              imageUrl:
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuAEbx1R6cWtQINCkizgrUTpUs6PBPK7vuYRQus0qu_3b_tkQOIYbukJ_0S9RLgS8O6-z26X8_4QEmML9RxgnMjm58rFFwL9yE4xseFqLvNCazViClmbBmtvIZRzbSrK1lY0CVWbI3VAe0JjjrKSpkrNQc9_HyrojbOPnX3rYlqNoqbxfeQ1gA6IJCxusuoP8fJVp19B592l3dChjRKL2W1jhHgfD1oqeU7Mpwu6KvOfA1_cAggNNWVQ',
-              angleLabel: 'In Motion',
-            },
-          ],
-          variants: [
-            { id: 1, size: '7', color: 'Volt Neon / Obsidian', stockQuantity: 15 },
-            { id: 2, size: '7.5', color: 'Volt Neon / Obsidian', stockQuantity: 12 },
-            { id: 3, size: '8', color: 'Volt Neon / Obsidian', stockQuantity: 20 },
-            { id: 4, size: '8.5', color: 'Volt Neon / Obsidian', stockQuantity: 18 },
-            { id: 5, size: '9', color: 'Volt Neon / Obsidian', stockQuantity: 25 },
-            { id: 6, size: '9.5', color: 'Volt Neon / Obsidian', stockQuantity: 14 },
-            { id: 7, size: '10', color: 'Volt Neon / Obsidian', stockQuantity: 10 },
-            { id: 8, size: '11', color: 'Volt Neon / Obsidian', stockQuantity: 8 },
-          ],
-          reviews: [
-            {
-              id: 1,
-              reviewerName: 'Marcus V.',
-              rating: 5,
-              title: 'Shaved 4 minutes off my marathon PR',
-              comment:
-                'The carbon plate propulsion and AeroFoam stack is revolutionary. Stiff, responsive, but saves your quads over 26.2 miles.',
-              verifiedPurchase: true,
-              createdAt: '2025-08-14T10:00:00',
-            },
-            {
-              id: 2,
-              reviewerName: 'Elena R.',
-              rating: 5,
-              title: 'Pure athletic engineering mastery',
-              comment:
-                'Light as a feather (215g on my scale) and the volt accents look stadium-grade under stadium lights.',
-              verifiedPurchase: true,
-              createdAt: '2025-08-20T15:30:00',
-            },
-          ],
-        });
+        loadFallback();
       } finally {
         setLoading(false);
+      }
+    };
+
+    const loadFallback = () => {
+      const fallback = getCatalogProductById(id || 1);
+      setProduct(fallback);
+      if (fallback.variants && fallback.variants.length > 0) {
+        setSelectedSize(formatNormalSize(fallback.variants[0].size));
+        setSelectedColor(fallback.variants[0].color);
       }
     };
 
@@ -127,15 +56,25 @@ export const ProductDetailsPage = () => {
   }, [id]);
 
   const handleAddToCart = async () => {
-    if (!product) return;
-    const variant = product.variants?.find((v) => formatNormalSize(v.size) === selectedSize || v.size === selectedSize);
-    await addToCart(product.id, variant?.id || null, quantity, {
-      ...product,
-      selectedSize,
-      selectedColor,
-    });
-    setAddedToast(true);
-    setTimeout(() => setAddedToast(false), 3000);
+    if (!product || isAdding) return;
+    setIsAdding(true);
+    try {
+      const variant = product.variants?.find(
+        (v) => formatNormalSize(v.size) === selectedSize || v.size === selectedSize
+      );
+      await addToCart(product.id, variant?.id || null, quantity, {
+        ...product,
+        primaryImageUrl: product.primaryImageUrl || product.images?.[0]?.imageUrl || '',
+        selectedSize,
+        selectedColor,
+      });
+      setAddedToast(true);
+      setTimeout(() => setAddedToast(false), 3000);
+    } catch (err) {
+      console.error('Error in handleAddToCart:', err);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   const handleBuyNow = async () => {
@@ -453,10 +392,23 @@ export const ProductDetailsPage = () => {
                 {/* Primary Add to Cart Button */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3.5 px-space-lg bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary font-headline-md text-headline-md uppercase font-bold rounded shadow-[0_0_24px_rgba(204,255,0,0.3)] hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-space-xs"
+                  disabled={isAdding}
+                  className={`flex-1 py-3.5 px-space-lg font-headline-md text-headline-md uppercase font-bold rounded transition-all flex items-center justify-center gap-space-xs cursor-pointer ${
+                    addedToast
+                      ? 'bg-green-500 text-black shadow-[0_0_24px_rgba(34,197,94,0.4)]'
+                      : 'bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary shadow-[0_0_24px_rgba(204,255,0,0.3)] hover:scale-[1.01] active:scale-[0.99]'
+                  }`}
                 >
-                  <span className="material-symbols-outlined font-bold">shopping_bag</span>
-                  <span>ADD TO RACING CART • {formatCurrency(product.price * quantity)}</span>
+                  <span className="material-symbols-outlined font-bold">
+                    {addedToast ? 'check_circle' : isAdding ? 'sync' : 'shopping_bag'}
+                  </span>
+                  <span>
+                    {addedToast
+                      ? `ADDED TO CART (${quantity})`
+                      : isAdding
+                      ? 'ADDING TO CART...'
+                      : `ADD TO RACING CART • ${formatCurrency(product.price * quantity)}`}
+                  </span>
                 </button>
               </div>
 
