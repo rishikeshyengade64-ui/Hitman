@@ -164,11 +164,19 @@ export const ProductListingPage = () => {
               <span>Performance Catalog • 2025 Series</span>
             </div>
             <h1 className="font-headline-xl text-headline-xl uppercase text-primary tracking-wide flex flex-wrap items-baseline gap-space-sm font-bold">
-              PRO SPORTS GEAR & APPAREL
+              {selectedCategory
+                ? `${categories.find((c) => c.slug === selectedCategory)?.name?.toUpperCase() || selectedCategory.toUpperCase()} GEAR`
+                : 'PRO SPORTS GEAR & APPAREL'}
               <span className="font-headline-md text-headline-md text-on-surface-variant font-normal">
                 (Showing {totalItems} Items)
               </span>
             </h1>
+            {selectedCategory && categories.find((c) => c.slug === selectedCategory)?.accurateItems && (
+              <p className="text-xs text-primary-fixed mt-1 font-mono flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span>
+                <span>Discipline Equipment: <strong>{categories.find((c) => c.slug === selectedCategory)?.accurateItems}</strong></span>
+              </p>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-space-md justify-between lg:justify-end">
@@ -325,28 +333,31 @@ export const ProductListingPage = () => {
                     {totalItems}
                   </span>
                 </label>
-                {categories.map((cat) => (
-                  <label
-                    key={cat.id}
-                    onClick={() => updateFilter('category', selectedCategory === cat.slug ? '' : cat.slug)}
-                    className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${
-                      selectedCategory === cat.slug ? 'bg-surface-container text-primary-fixed font-bold' : 'hover:bg-surface-container'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategory === cat.slug}
-                        readOnly
-                        className="accent-primary-fixed w-4 h-4 rounded"
-                      />
-                      <span>{cat.name}</span>
-                    </span>
-                    <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">
-                      {cat.itemCount || 100}
-                    </span>
-                  </label>
-                ))}
+                {categories.map((cat) => {
+                  const catCount = ALL_PRODUCTS.filter((p) => p.categorySlug === cat.slug).length;
+                  return (
+                    <label
+                      key={cat.id}
+                      onClick={() => updateFilter('category', selectedCategory === cat.slug ? '' : cat.slug)}
+                      className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${
+                        selectedCategory === cat.slug ? 'bg-surface-container text-primary-fixed font-bold' : 'hover:bg-surface-container'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedCategory === cat.slug}
+                          readOnly
+                          className="accent-primary-fixed w-4 h-4 rounded"
+                        />
+                        <span>{cat.name}</span>
+                      </span>
+                      <span className="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded">
+                        {catCount}
+                      </span>
+                    </label>
+                  );
+                })}
               </div>
             </div>
 

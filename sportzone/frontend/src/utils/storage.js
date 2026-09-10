@@ -41,4 +41,20 @@ export const storage = {
   clearCart: () => {
     localStorage.removeItem(CART_KEY);
   },
+
+  getLastOrder: () => {
+    try {
+      const data = localStorage.getItem('sportzone_last_order');
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
+    }
+  },
+  setLastOrder: (order) => {
+    try {
+      localStorage.setItem('sportzone_last_order', JSON.stringify(order));
+    } catch (err) {
+      console.warn('Could not save last order:', err);
+    }
+  },
 };

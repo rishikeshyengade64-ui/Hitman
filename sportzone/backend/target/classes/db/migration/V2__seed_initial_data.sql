@@ -32,6 +32,7 @@ BEGIN
     ('Cricket', 'cricket', 'Tournament-spec English willow bats, protective gear, and footwear.', 'sports_cricket', 164),
     ('Basketball', 'basketball', 'High-traction court shoes, jerseys, and responsive indoor/outdoor basketballs.', 'sports_basketball', 129),
     ('Tennis', 'tennis', 'Aerodynamic carbon fiber racquets, court footwear, and moisture-wicking apparel.', 'sports_tennis', 108),
+    ('Badminton', 'badminton', 'Tournament graphite rackets, aero feather shuttlecocks, and court gear.', 'sports_tennis', 145),
     ('Gym & Fitness', 'gym-fitness', 'Strength training accessories, compression wear, and hydration tech.', 'fitness_center', 195),
     ('Cycling', 'cycling', 'Aerodynamic cycling helmets, speed bibs, and carbon fiber road accessories.', 'pedal_bike', 92);
 END;
@@ -42,7 +43,9 @@ DECLARE @footballId BIGINT = (SELECT id FROM categories WHERE slug = 'football')
 DECLARE @cricketId BIGINT = (SELECT id FROM categories WHERE slug = 'cricket');
 DECLARE @basketballId BIGINT = (SELECT id FROM categories WHERE slug = 'basketball');
 DECLARE @tennisId BIGINT = (SELECT id FROM categories WHERE slug = 'tennis');
+DECLARE @badmintonId BIGINT = (SELECT id FROM categories WHERE slug = 'badminton');
 DECLARE @gymId BIGINT = (SELECT id FROM categories WHERE slug = 'gym-fitness');
+DECLARE @cyclingId BIGINT = (SELECT id FROM categories WHERE slug = 'cycling');
 
 IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CV-88219')
 BEGIN
@@ -209,6 +212,330 @@ BEGIN
     );
 END;
 
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CR-99205')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Red Crown 4-Piece Leather Match Cricket Ball',
+        'apex-red-crown-leather-match-cricket-ball',
+        'SZ-CR-99205',
+        'Hand-stitched Portuguese cork core encased in grade-A alum-tanned steer hide. 80-stitching seam delivers pronounced swing in humid conditions and prolonged durability over 80+ overs.',
+        34.99,
+        45.00,
+        22,
+        'Apex Athletic',
+        @cricketId,
+        1,
+        120,
+        4.94,
+        64,
+        0,
+        1,
+        156,
+        'https://images.unsplash.com/photo-1593341646782-e0b495cff86d?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-BM-77101')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex VoltStrike Carbon 900 Pro Badminton Racket',
+        'apex-voltstrike-carbon-900-pro-badminton-racket',
+        'SZ-BM-77101',
+        'Engineered with high-modulus Japanese Toray HM graphite and an ultra-thin 6.6mm aero-dynamic shaft. Pre-strung at 28 lbs tension with high-elasticity braided nanotech string.',
+        149.99,
+        180.00,
+        17,
+        'Apex Athletic',
+        @badmintonId,
+        1,
+        45,
+        4.96,
+        78,
+        1,
+        1,
+        83,
+        'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-BM-77202')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex AeroFlight Feather Shuttlecocks (Tube of 12)',
+        'apex-aeroflight-feather-shuttlecocks-12',
+        'SZ-BM-77202',
+        'BWF approved tournament speed 77 goose feather shuttlecocks. Crafted from selected grade-A straight feathers with premium composite natural cork base for consistent flight trajectory.',
+        29.99,
+        36.00,
+        17,
+        'Apex Athletic',
+        @badmintonId,
+        1,
+        85,
+        4.91,
+        112,
+        0,
+        1,
+        60,
+        'https://images.unsplash.com/photo-1521537634581-0dced2fee2ef?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-BB-33405')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex GripForce Official Game Basketball Size 7',
+        'apex-gripforce-official-game-basketball-size-7',
+        'SZ-BB-33405',
+        'FIBA regulation size 7 indoor/outdoor composite leather basketball with deep-channel design for tactile grip, moisture-absorbing composite surface, and rotational balance core.',
+        59.99,
+        75.00,
+        20,
+        'Apex Athletic',
+        @basketballId,
+        1,
+        90,
+        4.89,
+        95,
+        0,
+        1,
+        620,
+        'https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-TN-44208')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Tour Championship Extra Duty Felt Tennis Balls (Can of 3)',
+        'tour-championship-extra-duty-tennis-balls',
+        'SZ-TN-44208',
+        'ITF & USTA certified tournament pressurized tennis balls. Extra-duty woven interlocking felt resists fuzzing on hard court surfaces while the premium rubber core maintains lively bounce.',
+        18.99,
+        24.99,
+        24,
+        'Apex Athletic',
+        @tennisId,
+        1,
+        150,
+        4.88,
+        71,
+        0,
+        1,
+        175,
+        'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CR-99301')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Pro Shield High-Density Cricket Batting Pads',
+        'apex-pro-shield-cricket-batting-pads',
+        'SZ-CR-99301',
+        'Ultra-lightweight multi-layer cane and high-density plastazote foam construction. Pre-curved side wings and gel-infused knee bolster provide maximum protection against 150+ km/h thunderbolts.',
+        79.99,
+        99.99,
+        20,
+        'Apex Athletic',
+        @cricketId,
+        1,
+        45,
+        4.93,
+        47,
+        0,
+        1,
+        890,
+        'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-FB-55101')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Striker Carbon Pro Firm Ground Football Boots',
+        'apex-striker-carbon-pro-football-boots',
+        'SZ-FB-55101',
+        'Aerodynamic micro-textured SpeedSkin upper fused to a split carbon-fiber soleplate. Conical and chevron studs engineered for instantaneous acceleration and razor-sharp pivoting on firm pitches.',
+        139.99,
+        160.00,
+        12,
+        'Apex Athletic',
+        @footballId,
+        1,
+        60,
+        4.91,
+        88,
+        1,
+        1,
+        185,
+        'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-RN-88305')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'AeroStride HydroVent Lightweight Marathon Race Singlet',
+        'aerostride-hydrovent-marathon-race-singlet',
+        'SZ-RN-88305',
+        'Engineered with micro-perforated HydroVent mesh weighing only 68 grams. Glued bonded seams prevent chafing over 42.2km marathon distances under direct sunshine.',
+        39.99,
+        48.00,
+        16,
+        'Apex Athletic',
+        @runningId,
+        1,
+        120,
+        4.86,
+        63,
+        0,
+        1,
+        68,
+        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-AP-11005')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex HeavyDuty Neoprene Weightlifting Wrist Wraps & Straps',
+        'apex-heavyduty-lifting-wraps-straps',
+        'SZ-AP-11005',
+        'Military-spec reinforced cotton-elastic webbing with thumb loops and thick neoprene padding. Built for maximum wrist stabilization during heavy bench presses, cleans, and deadlifts.',
+        24.99,
+        32.00,
+        21,
+        'Apex Athletic',
+        @gymId,
+        1,
+        80,
+        4.95,
+        134,
+        0,
+        1,
+        120,
+        'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CY-66101')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex AeroSpeed Carbon Road Cycling Helmet',
+        'apex-aerospeed-carbon-road-cycling-helmet',
+        'SZ-CY-66101',
+        'Wind-tunnel calibrated aero-road helmet featuring an internal carbon-reinforcement cage, MIPS rotational brain protection system, and 18 aerodynamic airflow vents.',
+        129.99,
+        159.99,
+        18,
+        'Apex Athletic',
+        @cyclingId,
+        1,
+        40,
+        4.94,
+        52,
+        1,
+        1,
+        240,
+        'https://images.unsplash.com/photo-1559348349-86f1f65817fe?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CY-66001')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Velocita Pro Carbon Disc Road Racing Bicycle',
+        'apex-velocita-pro-carbon-road-bicycle',
+        'SZ-CY-66001',
+        'Engineered for competitive gran fondos and criterion racing. Features an ultra-lightweight Toray T800 monocoque carbon frame, integrated internal aerodynamic cable routing, Shimano 105 Di2 24-speed wireless electronic shifting, and hydraulic flat-mount disc brakes.',
+        1499.99,
+        1799.00,
+        16,
+        'Apex Athletic',
+        @cyclingId,
+        1,
+        26,
+        4.97,
+        39,
+        1,
+        1,
+        7850,
+        'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CY-66304')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex AeroVent Wind-Tunnel Pro Cycling Jersey & Bib Set',
+        'apex-aerovent-cycling-jersey-bib-set',
+        'SZ-CY-66304',
+        'Aerodynamic skin-suit technology engineered with Italian textured speed fabrics to reduce drag coefficient at speeds above 35 km/h. Includes multi-density 4D endurance chamois pad for 6+ hour rides and 3 reinforced rear cargo pockets.',
+        89.99,
+        110.00,
+        18,
+        'Apex Athletic',
+        @cyclingId,
+        1,
+        98,
+        4.90,
+        65,
+        0,
+        1,
+        280,
+        'https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
 -- 4. Insert Multi-Angle Gallery Images for CarbonVolt Strider
 DECLARE @carbonVoltId BIGINT = (SELECT id FROM products WHERE sku = 'SZ-CV-88219');
 
@@ -226,14 +553,14 @@ END;
 IF NOT EXISTS (SELECT * FROM product_variants WHERE product_id = @carbonVoltId)
 BEGIN
     INSERT INTO product_variants (product_id, size, color, stock_quantity, sku) VALUES
-    (@carbonVoltId, 'US 8', 'Volt Neon / Obsidian', 15, 'SZ-CV-88219-08'),
-    (@carbonVoltId, 'US 8.5', 'Volt Neon / Obsidian', 12, 'SZ-CV-88219-085'),
-    (@carbonVoltId, 'US 9', 'Volt Neon / Obsidian', 20, 'SZ-CV-88219-09'),
-    (@carbonVoltId, 'US 9.5', 'Volt Neon / Obsidian', 18, 'SZ-CV-88219-095'),
-    (@carbonVoltId, 'US 10', 'Volt Neon / Obsidian', 25, 'SZ-CV-88219-10'),
-    (@carbonVoltId, 'US 10.5', 'Volt Neon / Obsidian', 14, 'SZ-CV-88219-105'),
-    (@carbonVoltId, 'US 11', 'Volt Neon / Obsidian', 10, 'SZ-CV-88219-11'),
-    (@carbonVoltId, 'US 12', 'Volt Neon / Obsidian', 8, 'SZ-CV-88219-12');
+    (@carbonVoltId, '7', 'Volt Neon / Obsidian', 15, 'SZ-CV-88219-07'),
+    (@carbonVoltId, '7.5', 'Volt Neon / Obsidian', 12, 'SZ-CV-88219-075'),
+    (@carbonVoltId, '8', 'Volt Neon / Obsidian', 20, 'SZ-CV-88219-08'),
+    (@carbonVoltId, '8.5', 'Volt Neon / Obsidian', 18, 'SZ-CV-88219-085'),
+    (@carbonVoltId, '9', 'Volt Neon / Obsidian', 25, 'SZ-CV-88219-09'),
+    (@carbonVoltId, '9.5', 'Volt Neon / Obsidian', 14, 'SZ-CV-88219-095'),
+    (@carbonVoltId, '10', 'Volt Neon / Obsidian', 10, 'SZ-CV-88219-10'),
+    (@carbonVoltId, '11', 'Volt Neon / Obsidian', 8, 'SZ-CV-88219-11');
 END;
 
 -- 6. Insert Promo Codes

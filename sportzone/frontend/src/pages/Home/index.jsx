@@ -9,9 +9,21 @@ import { ALL_CATEGORIES, ALL_PRODUCTS } from '../../data/catalog';
 export const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState('badminton');
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
   const navigate = useNavigate();
+
+  const activeCategory =
+    categories.find((c) => c.slug === selectedCategorySlug) ||
+    ALL_CATEGORIES.find((c) => c.slug === selectedCategorySlug) ||
+    categories[0] ||
+    ALL_CATEGORIES[0];
+
+  const categoryProducts =
+    selectedCategorySlug === 'all'
+      ? ALL_PRODUCTS
+      : ALL_PRODUCTS.filter((p) => p.categorySlug === selectedCategorySlug);
 
   useEffect(() => {
     const loadHomeData = async () => {
@@ -154,47 +166,213 @@ export const HomePage = () => {
         </div>
       </section>
 
-      {/* CATEGORIES GRID */}
+      {/* CATEGORIES SECTION WITH ACCURATE ITEMS */}
       <section className="max-w-[1440px] mx-auto w-full px-space-md lg:px-space-xl py-space-2xl">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-xl">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-space-sm mb-space-lg">
           <div>
             <div className="flex items-center gap-space-xs text-primary-fixed font-label-caps text-label-caps uppercase mb-1">
               <span className="material-symbols-outlined text-sm">category</span>
-              <span>Sports Disciplines</span>
+              <span>Sports Disciplines & Accurate Gear</span>
             </div>
             <h2 className="font-headline-xl text-headline-xl uppercase text-primary font-bold">
-              Shop By Sport
+              Shop By Sport & Equipment
             </h2>
+            <p className="text-body-sm text-on-surface-variant max-w-xl mt-1">
+              Select a discipline below to view accurate tournament equipment, rackets, willow bats, leather balls, and footwear.
+            </p>
           </div>
-          <Link
-            to="/shop"
-            className="font-label-caps text-label-caps text-primary-fixed uppercase hover:underline flex items-center gap-1 font-bold text-xs"
-          >
-            <span>All Categories</span>
-            <span className="material-symbols-outlined text-sm">chevron_right</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedCategorySlug('all')}
+              className={`px-3 py-1.5 rounded-full font-label-caps text-xs uppercase font-bold transition-all cursor-pointer ${
+                selectedCategorySlug === 'all'
+                  ? 'bg-primary-fixed text-on-primary shadow-sm'
+                  : 'bg-surface-container text-on-surface-variant hover:text-on-surface border border-surface-variant'
+              }`}
+            >
+              All Disciplines ({ALL_PRODUCTS.length})
+            </button>
+            <Link
+              to="/shop"
+              className="font-label-caps text-label-caps text-primary-fixed uppercase hover:underline flex items-center gap-1 font-bold text-xs ml-2"
+            >
+              <span>Full Catalog</span>
+              <span className="material-symbols-outlined text-sm">chevron_right</span>
+            </Link>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-space-md">
-          {categories.map((cat) => (
-            <Link
-              key={cat.id}
-              to={`/shop?category=${cat.slug}`}
-              className="bg-surface-container hover:bg-surface-container-high rounded-xl p-space-md flex flex-col items-center text-center gap-space-sm transition-all border border-surface-variant/40 hover:border-primary-fixed/50 hover:scale-[1.03] group shadow-sm"
-            >
-              <div className="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-fixed group-hover:bg-primary-fixed group-hover:text-on-primary transition-colors shadow-inner">
-                <span className="material-symbols-outlined text-2xl">{cat.icon || 'sports'}</span>
+        {/* 8 Category Discipline Cards with Accurate Items Tags */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-space-xl">
+          {categories.map((cat) => {
+            const isSelected = selectedCategorySlug === cat.slug;
+            const accurateCount = ALL_PRODUCTS.filter((p) => p.categorySlug === cat.slug).length;
+
+            return (
+              <button
+                type="button"
+                key={cat.id}
+                onClick={() => setSelectedCategorySlug(cat.slug)}
+                className={`relative rounded-xl p-3 flex flex-col items-center text-center gap-2 transition-all overflow-hidden text-left group cursor-pointer border ${
+                  isSelected
+                    ? 'border-primary-fixed bg-surface-container-high shadow-[0_0_20px_rgba(204,255,0,0.15)] ring-1 ring-primary-fixed scale-[1.02]'
+                    : 'border-surface-variant/40 bg-surface-container hover:bg-surface-container-high hover:border-outline-variant hover:scale-[1.02]'
+                }`}
+              >
+                {/* Visual Discipline Photo Background Thumbnail */}
+                <div className="w-full h-16 rounded-lg overflow-hidden relative bg-surface-container-lowest shadow-inner mb-1">
+                  <img
+                    src={cat.image || 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=400&q=80'}
+                    alt={cat.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-70 group-hover:opacity-90"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+                  <div className="absolute bottom-1 left-1.5 flex items-center gap-1">
+                    <span className={`material-symbols-outlined text-base ${isSelected ? 'text-primary-fixed font-bold' : 'text-primary'}`}>
+                      {cat.icon || 'sports'}
+                    </span>
+                  </div>
+                  <span className="absolute top-1 right-1 bg-black/60 backdrop-blur-xs text-primary-fixed font-mono text-[9px] px-1.5 py-0.5 rounded font-bold">
+                    {accurateCount} Items
+                  </span>
+                </div>
+
+                <div className="w-full">
+                  <span className={`font-headline-md text-headline-md uppercase block font-bold text-xs truncate ${
+                    isSelected ? 'text-primary-fixed' : 'text-primary group-hover:text-on-surface'
+                  }`}>
+                    {cat.name}
+                  </span>
+                  <span className="font-label-sm text-[10px] text-on-surface-variant block truncate mt-0.5 leading-tight">
+                    {cat.accurateItems || `${accurateCount} gear items`}
+                  </span>
+                </div>
+
+                {isSelected && (
+                  <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ACCURATE ITEMS SHELF FOR SELECTED CATEGORY */}
+        <div className="bg-surface-container-low rounded-2xl p-space-md sm:p-space-lg border border-surface-container-high/80 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md mb-space-md border-b border-surface-container-high">
+            <div className="flex items-center gap-space-sm">
+              <div className="w-10 h-10 rounded-xl bg-primary-fixed text-on-primary flex items-center justify-center font-bold shadow-md">
+                <span className="material-symbols-outlined text-xl">
+                  {selectedCategorySlug === 'all' ? 'inventory_2' : (activeCategory?.icon || 'sports')}
+                </span>
               </div>
               <div>
-                <span className="font-headline-md text-headline-md uppercase text-primary block font-bold text-sm">
-                  {cat.name}
-                </span>
-                <span className="font-label-sm text-label-sm text-on-surface-variant">
-                  {cat.itemCount || 100}+ items
-                </span>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-headline-md text-base sm:text-lg uppercase text-primary font-bold tracking-tight">
+                    {selectedCategorySlug === 'all' ? 'All Tournament Equipment' : `${activeCategory?.name} Gear & Equipment`}
+                  </h3>
+                  <span className="bg-surface-container-high text-primary-fixed text-[10px] font-mono px-2 py-0.5 rounded font-bold border border-primary-fixed/20">
+                    {categoryProducts.length} Verified Items
+                  </span>
+                </div>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  {selectedCategorySlug === 'all'
+                    ? 'Showing comprehensive sports equipment across all disciplines.'
+                    : `Accurate tournament items: ${activeCategory?.accurateItems || 'Professional match gear'}`}
+                </p>
               </div>
+            </div>
+
+            <Link
+              to={selectedCategorySlug === 'all' ? '/shop' : `/shop?category=${activeCategory?.slug}`}
+              className="inline-flex items-center gap-1 text-xs font-label-caps uppercase text-primary-fixed hover:underline font-bold bg-surface-container px-3 py-1.5 rounded-lg border border-surface-variant hover:border-primary-fixed/40 transition-colors self-start sm:self-auto"
+            >
+              <span>Explore All {selectedCategorySlug === 'all' ? 'Items' : activeCategory?.name} in Shop</span>
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
-          ))}
+          </div>
+
+          {/* Accurate Products Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-space-md">
+            {categoryProducts.map((product) => (
+              <div
+                key={product.id}
+                onClick={() => navigate(`/products/${product.id}`)}
+                className="group relative bg-surface-container rounded-xl overflow-hidden border border-surface-container-high/60 hover:border-primary-fixed/60 transition-all flex flex-col justify-between shadow-md cursor-pointer hover:-translate-y-1 duration-300"
+              >
+                {/* Product Image & Badges */}
+                <div className="relative w-full aspect-[4/3] bg-surface-container-lowest overflow-hidden">
+                  <img
+                    src={product.primaryImageUrl}
+                    alt={product.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {product.discountPercentage > 0 && (
+                    <span className="absolute top-2 left-2 bg-secondary-container text-on-secondary-container font-label-caps text-[10px] uppercase px-2 py-0.5 rounded font-bold shadow">
+                      -{product.discountPercentage}% OFF
+                    </span>
+                  )}
+                  <span className="absolute top-2 right-2 bg-surface-container-high/90 backdrop-blur-sm text-primary-fixed text-[10px] font-mono px-2 py-0.5 rounded font-bold border border-surface-variant">
+                    {product.categoryName}
+                  </span>
+                  {product.weightGrams > 0 && (
+                    <span className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-xs text-on-surface text-[10px] font-mono px-2 py-0.5 rounded">
+                      {product.weightGrams}g
+                    </span>
+                  )}
+                </div>
+
+                {/* Info Container */}
+                <div className="p-space-sm sm:p-space-md flex flex-col flex-1 justify-between gap-space-sm">
+                  <div>
+                    <span className="font-label-sm text-[10px] uppercase text-on-surface-variant tracking-wider block font-mono">
+                      {product.brand} • {product.sku}
+                    </span>
+                    <h4 className="font-title-base text-body-sm sm:text-base text-primary uppercase font-bold group-hover:text-primary-fixed transition-colors line-clamp-2 mt-0.5 leading-snug">
+                      {product.title}
+                    </h4>
+                  </div>
+
+                  {/* Rating & Stock */}
+                  <div className="flex items-center justify-between text-xs pt-1 border-t border-surface-container-high/50">
+                    <div className="flex items-center gap-1 text-primary-fixed font-bold font-mono">
+                      <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        star
+                      </span>
+                      <span>{product.rating}</span>
+                      <span className="text-[10px] text-on-surface-variant font-normal">({product.reviewCount})</span>
+                    </div>
+                    <span className="text-[11px] text-green-400 font-mono flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span> In Stock
+                    </span>
+                  </div>
+
+                  {/* Price & Action Row */}
+                  <div className="flex items-center justify-between pt-space-xs">
+                    <div className="flex flex-col">
+                      <span className="text-primary-fixed font-headline-md font-bold text-base sm:text-lg">
+                        {formatCurrency(product.price)}
+                      </span>
+                      {product.msrp > product.price && (
+                        <span className="text-on-surface-variant line-through text-[11px] font-mono">
+                          {formatCurrency(product.msrp)}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => handleQuickAdd(e, product)}
+                      className="px-3 py-1.5 bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary font-label-caps text-xs uppercase font-bold rounded shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1 cursor-pointer"
+                      title="Add to Cart"
+                    >
+                      <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
+                      <span>Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

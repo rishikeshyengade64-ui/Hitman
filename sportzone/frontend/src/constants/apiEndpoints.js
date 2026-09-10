@@ -1,4 +1,14 @@
-export const API_BASE_URL = 'http://localhost:8080/api';
+// Resolve and normalize dynamic API base URL for Render cloud deployment and local development
+const resolveApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  if (!envUrl) {
+    return '/api';
+  }
+  const clean = envUrl.trim().replace(/\/+$/, '');
+  return clean.endsWith('/api') ? clean : `${clean}/api`;
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
 
 export const API_ENDPOINTS = {
   AUTH: {

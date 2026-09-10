@@ -45,6 +45,7 @@ DECLARE @basketballId BIGINT = (SELECT id FROM categories WHERE slug = 'basketba
 DECLARE @tennisId BIGINT = (SELECT id FROM categories WHERE slug = 'tennis');
 DECLARE @badmintonId BIGINT = (SELECT id FROM categories WHERE slug = 'badminton');
 DECLARE @gymId BIGINT = (SELECT id FROM categories WHERE slug = 'gym-fitness');
+DECLARE @cyclingId BIGINT = (SELECT id FROM categories WHERE slug = 'cycling');
 
 IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CV-88219')
 BEGIN
@@ -343,6 +344,195 @@ BEGIN
         1,
         175,
         'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CR-99301')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Pro Shield High-Density Cricket Batting Pads',
+        'apex-pro-shield-cricket-batting-pads',
+        'SZ-CR-99301',
+        'Ultra-lightweight multi-layer cane and high-density plastazote foam construction. Pre-curved side wings and gel-infused knee bolster provide maximum protection against 150+ km/h thunderbolts.',
+        79.99,
+        99.99,
+        20,
+        'Apex Athletic',
+        @cricketId,
+        1,
+        45,
+        4.93,
+        47,
+        0,
+        1,
+        890,
+        'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-FB-55101')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Striker Carbon Pro Firm Ground Football Boots',
+        'apex-striker-carbon-pro-football-boots',
+        'SZ-FB-55101',
+        'Aerodynamic micro-textured SpeedSkin upper fused to a split carbon-fiber soleplate. Conical and chevron studs engineered for instantaneous acceleration and razor-sharp pivoting on firm pitches.',
+        139.99,
+        160.00,
+        12,
+        'Apex Athletic',
+        @footballId,
+        1,
+        60,
+        4.91,
+        88,
+        1,
+        1,
+        185,
+        'https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-RN-88305')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'AeroStride HydroVent Lightweight Marathon Race Singlet',
+        'aerostride-hydrovent-marathon-race-singlet',
+        'SZ-RN-88305',
+        'Engineered with micro-perforated HydroVent mesh weighing only 68 grams. Glued bonded seams prevent chafing over 42.2km marathon distances under direct sunshine.',
+        39.99,
+        48.00,
+        16,
+        'Apex Athletic',
+        @runningId,
+        1,
+        120,
+        4.86,
+        63,
+        0,
+        1,
+        68,
+        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-AP-11005')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex HeavyDuty Neoprene Weightlifting Wrist Wraps & Straps',
+        'apex-heavyduty-lifting-wraps-straps',
+        'SZ-AP-11005',
+        'Military-spec reinforced cotton-elastic webbing with thumb loops and thick neoprene padding. Built for maximum wrist stabilization during heavy bench presses, cleans, and deadlifts.',
+        24.99,
+        32.00,
+        21,
+        'Apex Athletic',
+        @gymId,
+        1,
+        80,
+        4.95,
+        134,
+        0,
+        1,
+        120,
+        'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CY-66101')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex AeroSpeed Carbon Road Cycling Helmet',
+        'apex-aerospeed-carbon-road-cycling-helmet',
+        'SZ-CY-66101',
+        'Wind-tunnel calibrated aero-road helmet featuring an internal carbon-reinforcement cage, MIPS rotational brain protection system, and 18 aerodynamic airflow vents.',
+        129.99,
+        159.99,
+        18,
+        'Apex Athletic',
+        @cyclingId,
+        1,
+        40,
+        4.94,
+        52,
+        1,
+        1,
+        240,
+        'https://images.unsplash.com/photo-1559348349-86f1f65817fe?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CY-66001')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex Velocita Pro Carbon Disc Road Racing Bicycle',
+        'apex-velocita-pro-carbon-road-bicycle',
+        'SZ-CY-66001',
+        'Engineered for competitive gran fondos and criterion racing. Features an ultra-lightweight Toray T800 monocoque carbon frame, integrated internal aerodynamic cable routing, Shimano 105 Di2 24-speed wireless electronic shifting, and hydraulic flat-mount disc brakes.',
+        1499.99,
+        1799.00,
+        16,
+        'Apex Athletic',
+        @cyclingId,
+        1,
+        26,
+        4.97,
+        39,
+        1,
+        1,
+        7850,
+        'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=800&q=80'
+    );
+END;
+
+IF NOT EXISTS (SELECT * FROM products WHERE sku = 'SZ-CY-66304')
+BEGIN
+    INSERT INTO products (
+        title, slug, sku, description, price, msrp, discount_percentage, brand, category_id,
+        in_stock, stock_quantity, rating, review_count, is_featured, is_new_arrival,
+        weight_grams, primary_image_url
+    ) VALUES (
+        'Apex AeroVent Wind-Tunnel Pro Cycling Jersey & Bib Set',
+        'apex-aerovent-cycling-jersey-bib-set',
+        'SZ-CY-66304',
+        'Aerodynamic skin-suit technology engineered with Italian textured speed fabrics to reduce drag coefficient at speeds above 35 km/h. Includes multi-density 4D endurance chamois pad for 6+ hour rides and 3 reinforced rear cargo pockets.',
+        89.99,
+        110.00,
+        18,
+        'Apex Athletic',
+        @cyclingId,
+        1,
+        98,
+        4.90,
+        65,
+        0,
+        1,
+        280,
+        'https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?auto=format&fit=crop&w=800&q=80'
     );
 END;
 

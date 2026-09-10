@@ -99,6 +99,23 @@ export const OrderHistoryPage = () => {
                   </div>
                 ))}
               </div>
+
+              {/* Shipping & Tracking Action Link */}
+              <div className="pt-2 border-t border-surface-container-high/40 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5 text-on-surface-variant text-[11px]">
+                  <span className="material-symbols-outlined text-primary-fixed text-sm">local_shipping</span>
+                  <span>
+                    {ord.shippingCity ? `Delivering to ${ord.shippingCity}, ${ord.shippingZipCode || ''}` : 'Fast Express Delivery'}
+                  </span>
+                </div>
+                <Link
+                  to={`/orders/success/${ord.orderNumber}`}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary-fixed/10 hover:bg-primary-fixed/20 text-primary-fixed font-label-caps uppercase text-[11px] font-bold rounded transition-colors"
+                >
+                  <span>Track Shipment & Details</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
             </div>
           ))}
         </div>
